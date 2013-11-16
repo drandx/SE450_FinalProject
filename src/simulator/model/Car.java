@@ -31,21 +31,14 @@ public class Car implements Agent{
 	}
 
 	public void run(double time) {
-		/*
-		 if (_backAndForth) {
-		      if (((_position + _velocity) < 0) || ((_position + _velocity) > (MP.roadLength-MP.carLength)))
-		        _velocity *= -1;
-		    } else {
-		      if ((_position + _velocity) > (MP.roadLength-MP.carLength))
-		        _position = 0;
-		    }
-		    _position += _velocity;
-		   ;*/
 		double distanceToObs = this.currentRoad.distanceToObstacle(this._frontPositon);
+		
+		if(distanceToObs==0)distanceToObs = Double.POSITIVE_INFINITY; //Allows parallel objects
+		
 		double velocity = (_maxVelocity / (_brakeDistance - _stopDistance)) * (distanceToObs - _stopDistance);
 		velocity = Math.max(0.0, velocity);
 		velocity = Math.min(_maxVelocity, velocity);
-		_frontPositon = _frontPositon + velocity * 1; //TODO: Velocity * time ????
+		_frontPositon = _frontPositon + velocity * time; //TODO: Velocity * time ????
 		//this.agents.enqueue(10+time, this); //TimeStamp decides the how longs virtual time.
 		//nextFrontPosition = _frontPosition + velocity * timeStep;
 		if (currentRoad.accept(this, _frontPositon))

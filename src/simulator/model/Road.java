@@ -44,12 +44,14 @@ public class Road implements CarAcceptor{
 
 	public double distanceToObstacle(double fromPosition) {
 		double obstaclePosition = this.distanceToCarBack(fromPosition);
+		
 		if (obstaclePosition == Double.POSITIVE_INFINITY) {
 			double distanceToEnd = fromPosition-this.endPosition;
+			if(distanceToEnd>=0)
 			obstaclePosition = _nextAcceptor.distanceToObstacle(fromPosition-this.endPosition);
 		}
-		//return obstaclePosition-fromPosition;
-		return 100;
+		return obstaclePosition-fromPosition;
+		//return 100;
 	}
 
 	private double distanceToCarBack(double fromPosition) {

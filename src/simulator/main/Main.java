@@ -15,7 +15,7 @@ public class Main {
     {
       //Simulator m = new Simulator(new SwingAnimatorBuilder(), 2, 2);
       //TimeServerQueue m = new TimeServerQueue(new SwingAnimatorBuilder(), 2, 2);
-      TimeServerLinked m = new TimeServerLinked(new SwingAnimatorBuilder(), 1, 1);	
+      TimeServerLinked m = new TimeServerLinked(new SwingAnimatorBuilder(), 2, 3);	
       m.run(2000); //Runs every agent added to the data structure.
       m.dispose();
     }
