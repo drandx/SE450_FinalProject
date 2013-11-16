@@ -8,7 +8,7 @@ public class MP {
   /** Length of cars, in meters */
   public static double carLength = 10;
   /** Length of roads, in meters */
-  public static double roadLength = 500;
+  public static double roadLength = 150;
   /** Maximum car velocity, in meters/second */
   public static double maxVelocity = 1;
   

@@ -28,7 +28,8 @@ public class Road implements CarAcceptor{
 	public boolean accept(Car c, double frontPosition) {
 		_cars.remove(c);
 		if(frontPosition>endPosition) {
-			if(this._nextAcceptor == null)throw new IllegalStateException();
+			if(this._nextAcceptor instanceof Sink)//c = null; //Reaches the sink
+				return false;
 			return ((Road) this._nextAcceptor).accept(c,frontPosition-endPosition);
 		} else {
 			c.setCurrentRoad(this);
