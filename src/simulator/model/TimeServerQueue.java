@@ -117,7 +117,6 @@ public final class TimeServerQueue extends Observable implements TimeServer {
 				_queue.add(new Node(0, car)); //TODO: Figureout the max wakeuptime.
 				l.accept(car);
 			}
-			System.out.println("");//TODO: Remove this flag
 		}
 	}
 

@@ -61,7 +61,6 @@ public class LightController implements Agent{
 			}
 		}
 		else if(_currentState == lightControlState.RedNS_GreenEW){
-			System.out.println("greenDurationEW: "+lightDurations.greenDurationEW._time);
 			if(time-this._prevTime > MP.greenDurationEW){
 				_lights[NorthSouth].set_state(lightState.RED);
 				_lights[EastWest].set_state(lightState.YELLOW);

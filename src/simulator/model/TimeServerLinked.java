@@ -88,7 +88,6 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 				Light ewLight = new Light();
 				this.lightControllers.add(new LightController(nsLight,ewLight));
 				builder.addLight(nsLight, i, j);
-				System.out.println("Pause");
 			}
 		}
 
@@ -144,8 +143,6 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 		for(Source s : sources){
 			this.enqueue(1, s.generateCar(this));
 		}
-		
-		System.out.println("");//TODO: Remove this flag
 	}
 
 	public String toString() {
@@ -206,10 +203,8 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 		while ((!empty()) && (_head.next.waketime <= endtime)) {
 			for (LightController lc :  lightControllers) {
 				lc.run(_currentTime);
-				System.out.println("Pause Flag");
 			}
 			_currentTime = _head.next.waketime;
-			System.out.println("Current Time: "+_currentTime);
 			while ((!empty()) && (_head.next.waketime == _currentTime)) {
 				dequeue().run(_currentTime);
 				super.setChanged();

@@ -27,7 +27,6 @@ public class Light implements CarAcceptor{
 
 	public void set_state(lightState _state) {
 		this._state = _state;
-		System.out.println("---");
 	}
 	  
 	  
