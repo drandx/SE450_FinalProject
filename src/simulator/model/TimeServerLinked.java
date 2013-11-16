@@ -88,7 +88,6 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 				Light ewLight = new Light();
 				this.lightControllers.add(new LightController(nsLight,ewLight));
 				builder.addLight(nsLight, i, j);
-				//this.enqueue(1,intersections[i][j]); ////TODO: Wake time??? Creates Lights
 				System.out.println("Pause");
 			}
 		}
@@ -142,21 +141,6 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 			lastNSRoad._nextAcceptor = sink;
 			southToNorth = !southToNorth;
 		}
-
-		// Add Cars
-		/*for (Road l : roads) {
-			Util.setRandomSeed(10);
-			for(int i=1; i<=MP.maxRoadCars;i++){ //Loop to create random number of cars per road
-				Car car = new Car(0,0,0,0);
-				car.setTimeServer(this);
-				//Util.setRandomSeed(i*10);
-				//_queue.add(new Node(0, car)); //TODO: Figureout the max wakeuptime.
-				car.setCurrentRoad(l);
-				this.enqueue(1, car);//TODO: Wake time??? Source class comes here
-				l.accept(car);
-			}	
-		}*/
-		
 		for(Source s : sources){
 			this.enqueue(1, s.generateCar(this));
 		}
@@ -227,15 +211,11 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 			_currentTime = _head.next.waketime;
 			System.out.println("Current Time: "+_currentTime);
 			while ((!empty()) && (_head.next.waketime == _currentTime)) {
-				Agent tmpTest = dequeue();
-				System.out.println("Cara run: "+tmpTest);
-				tmpTest.run(_currentTime);
+				dequeue().run(_currentTime);
 				super.setChanged();
 				super.notifyObservers();
-				//enqueue(1+currentTime(), tmpTest); //Reenqueue must be done from Car
 			}
 
-			System.out.println("--Pause");
 		}
 		_currentTime = endtime;
 	}

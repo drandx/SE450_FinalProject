@@ -51,7 +51,6 @@ public class LightController implements Agent{
 				_currentState = lightControlState.YellowNS_RedEW;
 				this._prevTime = time;
 			}
-			System.out.println("NO HIZO NI MIERDA");
 		}
 		else if(_currentState == lightControlState.YellowNS_RedEW){
 			if(time-this._prevTime > MP.yellowDurationNS){
@@ -77,10 +76,7 @@ public class LightController implements Agent{
 				_currentState = lightControlState.GreenNS_RedEW;
 				this._prevTime = time;
 			}
-		}
-		
-		System.out.println("NO HIZO NI MIERDA");
-		
+		}		
 	}
 
 }

@@ -20,8 +20,6 @@ public class Road implements CarAcceptor{
 
 	private List<Car> _cars = new ArrayList<Car>();
 
-	//Set<Car> _cars = new HashSet<Car>();
-
 	public void accept(Car d) {
 		if (d == null) { throw new IllegalArgumentException(); }
 		_cars.add(d);
