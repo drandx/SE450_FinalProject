@@ -10,7 +10,8 @@ public class Simple implements World {
 	public Simple(Model model, ArrayList<Agent> _agents,LightController[][] intersection, AnimatorBuilder builder, TimeServer timeServer) {
 		int rows = MP.getRows();
 		int columns = MP.getColumns();
-			
+	
+		
 		// Add Horizontal Roads
 		for (int i=0; i<rows; i++) {
 			
@@ -29,7 +30,7 @@ public class Simple implements World {
 				}
 				else oldLast._nextAcceptor = lastRoad;
 
-				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
+				builder.addHorizontalRoad(lastRoad, i, j, false);
 			}
 			Sink sink = new Sink();
 			lastRoad._nextAcceptor = sink;
