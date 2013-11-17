@@ -10,9 +10,7 @@ public class Simple implements World {
 	public Simple(Model model, ArrayList<Agent> _agents,LightController[][] intersection, AnimatorBuilder builder, TimeServer timeServer) {
 		int rows = MP.getRows();
 		int columns = MP.getColumns();
-	
-		boolean eastToWest = false;
-		
+			
 		// Add Horizontal Roads
 		for (int i=0; i<rows; i++) {
 			
