@@ -36,7 +36,7 @@ public class Car implements Agent{
 		_frontPositon = _frontPositon + _velocity * time;
 
 		if (_currentRoad.accept(this, _frontPositon))
-			_agents.enqueue(_agents.currentTime()+MP.sleepSeconds,this);
+			_agents.enqueue(_agents.currentTime()+MP.getTimeStep(),this);
 
 	}
 
