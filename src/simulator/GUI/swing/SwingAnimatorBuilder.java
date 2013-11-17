@@ -18,7 +18,7 @@ import simulator.util.SwingAnimatorPainter;
 /** 
  * A class for building Animators.
  */
-public class SwingAnimatorBuilder implements AnimatorBuilder {
+public class SwingAnimatorBuilder implements AnimatorBuilder 	{
 	MyPainter _painter;
 	public SwingAnimatorBuilder() {
 		_painter = new MyPainter();
@@ -72,6 +72,7 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
 
 		private List<Element<Road>> _roadElements;
 		private List<Element<Light>> _lightElements;
+		
 		MyPainter() {
 			_roadElements = new ArrayList<Element<Road>>();
 			_lightElements = new ArrayList<Element<Light>>();
@@ -108,14 +109,28 @@ public class SwingAnimatorBuilder implements AnimatorBuilder {
 			}
 
 			// Then draw the foreground elements
-			for (Element<Road> e : _roadElements) {
+			for (Element e : _roadElements) {
 				// iterate through a copy because e.x.getCars() may change during iteration...
-				for (Car d : e.x.getCars().toArray(new Car[0])) {
+				for (Car d : (Car[])((Road)e.x).getCars().toArray(new Car[0])) {
 					g.setColor(d.getColor());
 					XGraphics.fillOval(g, e.t, d.getPosition(), 0, MP.carLength, VP.elementWidth);
 				}
 			}
+			
+			
 		}
 	}
+	
+    private static class Element<T>
+    {
+      T x;
+      Translator t;
+
+      Element(T x, Translator t)
+      {
+        this.x = x;
+        this.t = t;
+      }
+    }
 }
 
