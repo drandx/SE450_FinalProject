@@ -3,10 +3,11 @@ package simulator.model;
 import java.util.ArrayList;
 
 import simulator.agent.Agent;
+import simulator.agent.TimeServer;
 
 public class Simple implements World{
 
-	public Simple(Model model, ArrayList<Agent> _agents,LightController[][] intersection, AnimatorBuilder builder) {
+	public Simple(Model model, ArrayList<Agent> _agents,LightController[][] intersection, AnimatorBuilder builder, TimeServer timeServer) {
 		int rows = MP.getRows();
 		int columns = MP.getColumns();
 		
@@ -24,15 +25,13 @@ public class Simple implements World{
 
 				if(firstRoad == null){
 					firstRoad = lastRoad;
-					Source source = new Source(firstRoad);
-					//TODO:Refactor Pending
-					//this.sources.add(source);
+					Source source = new Source(firstRoad,timeServer);
+					timeServer.enqueue(0, source);
 				}
 				else oldLast._nextAcceptor = lastRoad;
 
 				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
-				//TODO:Refactor Pending
-				//roads.add(lastRoad);
+				
 			}
 			eastToWest = !eastToWest;
 			Sink sink = new Sink();
@@ -51,9 +50,8 @@ public class Simple implements World{
 				lastNSRoad._nextAcceptor = null;
 				if(firstNSRoad == null){
 					firstNSRoad = lastNSRoad;
-					Source source = new Source(firstNSRoad);
-					//TODO:Refactor Pending
-					//this.sources.add(source);
+					Source source = new Source(firstNSRoad,timeServer);
+					timeServer.enqueue(0, source);
 				}
 				else oldNSRoad._nextAcceptor = lastNSRoad;
 				builder.addVerticalRoad(lastNSRoad, i, j, southToNorth);

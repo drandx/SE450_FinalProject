@@ -1,27 +1,25 @@
 package simulator.model;
 
+import simulator.agent.Agent;
 import simulator.agent.TimeServer;
 
-public class Source implements CarAcceptor{
+public class Source implements Agent{
 	Road _first;
+	TimeServer _timeServer;
 
-	public Source(Road first){
+	public Source(Road first, TimeServer ts){
 		this._first = first;
+		this._timeServer = ts;
 	}
-	
-	@Override
-	public double distanceToObstacle(double fromPosition) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	public Car generateCar(TimeServer ts){
+
+	public void run(double time) {
 		Car car = new Car();
-		car.setTimeServer(ts);
+		car.setTimeServer(this._timeServer);
 		car.setCurrentRoad((Road) this._first);
 		this._first.acceptObstacle(car);
-		return car;
+		this._timeServer.enqueue(this._timeServer.currentTime()+time, car);
+		this._timeServer.enqueue(time+5.0D, this);
+		
 	}
 
 	

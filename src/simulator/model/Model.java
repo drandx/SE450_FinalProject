@@ -91,7 +91,6 @@ public final class Model extends Observable implements TimeServer {
 	private void setup(AnimatorBuilder builder, int rows, int columns) {
 		this._horizontalRoads = rows;
 		this._verticalRoads = columns;
-		List<Road> roads = new ArrayList<Road>();
 		
 		// Add Lights
 		for (int i=0; i<rows; i++) {
@@ -102,9 +101,6 @@ public final class Model extends Observable implements TimeServer {
 				builder.addLight(nsLight, i, j);//This is just for the UI
 			}
 		}
-
-		
-		//TODO: Refactor
 		
 		// Add Horizontal Roads
 		for (int i=0; i<rows; i++) {
@@ -120,13 +116,12 @@ public final class Model extends Observable implements TimeServer {
 
 				if(firstRoad == null){
 					firstRoad = lastRoad;
-					Source source = new Source(firstRoad);
-					this.sources.add(source);
+					Source source = new Source(firstRoad,this);
+					this.enqueue(1, source);
 				}
 				else oldLast._nextAcceptor = lastRoad;
 				
 				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
-				roads.add(lastRoad);
 			}
 			eastToWest = !eastToWest;
 			Sink sink = new Sink();
@@ -145,22 +140,18 @@ public final class Model extends Observable implements TimeServer {
 				lastNSRoad._nextAcceptor = null;
 				if(firstNSRoad == null){
 					firstNSRoad = lastNSRoad;
-					Source source = new Source(firstNSRoad);
-					this.sources.add(source);
+					Source source = new Source(firstNSRoad,this);
+					this.enqueue(1, source);
 				}
 				else oldNSRoad._nextAcceptor = lastNSRoad;
 				builder.addVerticalRoad(lastNSRoad, i, j, southToNorth);
-				/*if(i<rows)
-					lastNSRoad.acceptObstacle(this._lControllers[i][j]);*/
-				roads.add(lastNSRoad);
+				
 			}
 			Sink sink = new Sink();
 			lastNSRoad._nextAcceptor = sink;
 			southToNorth = !southToNorth;
 		}
-		for(Source s : sources){
-			this.enqueue(1, s.generateCar(this));
-		}
+		
 	}
 
 	public String toString() {
