@@ -68,4 +68,14 @@ public class Road implements CarAcceptor{
 		return carBackPosition;
 	}
 
+	public double getEndPosition() {
+		return endPosition;
+	}
+
+	public void setEndPosition(double endPosition) {
+		this.endPosition = endPosition;
+	}
+	
+	
+
 }

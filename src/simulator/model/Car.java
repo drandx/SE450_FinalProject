@@ -12,8 +12,8 @@ public class Car implements Agent{
 
 	private java.awt.Color _color = new java.awt.Color((int)Math.ceil(Math.random()*255),(int)Math.ceil(Math.random()*255),(int)Math.ceil(Math.random()*255));
 
-	private Road currentRoad; //It's a rreference to the current road
-	private TimeServer agents; //It's going to be a refference to the timeserver. !!! 
+	private Road _currentRoad; //It's a rreference to the current road
+	private TimeServer _agents; //It's going to be a refference to the timeserver. !!! 
 
 	private double _frontPositon;
 
@@ -26,7 +26,7 @@ public class Car implements Agent{
 	}
 
 	public void run(double time) {
-		double distanceToObs = this.currentRoad.distanceToObstacle(this._frontPositon);
+		double distanceToObs = this._currentRoad.distanceToObstacle(this._frontPositon);
 
 		if(distanceToObs==0)distanceToObs = Double.POSITIVE_INFINITY; //Allows parallel objects
 
@@ -35,8 +35,8 @@ public class Car implements Agent{
 		_velocity = Math.min(_maxVelocity, _velocity);
 		_frontPositon = _frontPositon + _velocity * time;
 
-		if (currentRoad.accept(this, _frontPositon))
-			agents.enqueue(agents.currentTime()+MP.sleepSeconds,this);
+		if (_currentRoad.accept(this, _frontPositon))
+			_agents.enqueue(_agents.currentTime()+MP.sleepSeconds,this);
 
 	}
 
@@ -50,7 +50,7 @@ public class Car implements Agent{
 	}
 
 	public void setTimeServer(TimeServer ts){
-		this.agents = ts;
+		this._agents = ts;
 	}
 
 	double backPosition() {
@@ -58,7 +58,7 @@ public class Car implements Agent{
 	}
 
 	public void setCurrentRoad(Road road){
-		this.currentRoad = road;
+		this._currentRoad = road;
 	}
 
 	public void setFrontPosition(double position){
@@ -72,5 +72,19 @@ public class Car implements Agent{
 	public double getVelocity() {
 		return this._velocity;
 	}
+
+	public double get_length() {
+		return _length;
+	}
+
+	public void set_length(double _length) {
+		this._length = _length;
+	}
+
+	public Road getCurrentRoad() {
+		return _currentRoad;
+	}
+	
+	
 
 }

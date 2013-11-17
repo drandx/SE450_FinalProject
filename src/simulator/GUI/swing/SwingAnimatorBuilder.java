@@ -113,7 +113,9 @@ public class SwingAnimatorBuilder implements AnimatorBuilder 	{
 				// iterate through a copy because e.x.getCars() may change during iteration...
 				for (Car d : (Car[])((Road)e.x).getCars().toArray(new Car[0])) {
 					g.setColor(d.getColor());
-					XGraphics.fillOval(g, e.t, d.getPosition(), 0, MP.carLength, VP.elementWidth);
+					//XGraphics.fillOval(g, e.t, d.getPosition(), 0, MP.carLength, VP.elementWidth);
+					//Paints the size of the car
+					XGraphics.fillOval(g, e.t, d.getPosition() / (d.getCurrentRoad().getEndPosition() / MP.roadDrawLength), 0.0D, d.get_length() / (d.getCurrentRoad().getEndPosition() / MP.roadDrawLength), VP.elementWidth);
 				}
 			}
 			
