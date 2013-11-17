@@ -11,7 +11,6 @@ public class Simple implements World {
 		int rows = MP.getRows();
 		int columns = MP.getColumns();
 	
-		boolean eastToWest = false;
 		
 		// Add Horizontal Roads
 		for (int i=0; i<rows; i++) {
@@ -31,7 +30,7 @@ public class Simple implements World {
 				}
 				else oldLast._nextAcceptor = lastRoad;
 
-				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
+				builder.addHorizontalRoad(lastRoad, i, j, false);
 			}
 			Sink sink = new Sink();
 			lastRoad._nextAcceptor = sink;
