@@ -26,7 +26,7 @@ public class Simple implements World{
 				if(firstRoad == null){
 					firstRoad = lastRoad;
 					Source source = new Source(firstRoad,timeServer);
-					timeServer.enqueue(0, source);
+					timeServer.enqueue(1, source);
 				}
 				else oldLast._nextAcceptor = lastRoad;
 
@@ -51,23 +51,15 @@ public class Simple implements World{
 				if(firstNSRoad == null){
 					firstNSRoad = lastNSRoad;
 					Source source = new Source(firstNSRoad,timeServer);
-					timeServer.enqueue(0, source);
+					timeServer.enqueue(1, source);
 				}
 				else oldNSRoad._nextAcceptor = lastNSRoad;
 				builder.addVerticalRoad(lastNSRoad, i, j, southToNorth);
-				/*if(i<rows)
-							lastNSRoad.acceptObstacle(this._lControllers[i][j]);*/
-				//TODO:Refactor Pending
-				//roads.add(lastNSRoad);
 			}
 			Sink sink = new Sink();
 			lastNSRoad._nextAcceptor = sink;
 			southToNorth = !southToNorth;
 		}
-		//TODO:Refactor Pending
-		//for(Source s : sources){
-			//this.enqueue(1, s.generateCar(this));
-		//}
 	}
 
 }

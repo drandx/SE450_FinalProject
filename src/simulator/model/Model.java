@@ -1,8 +1,6 @@
 package simulator.model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Observable;
 
 import simulator.agent.Agent;
@@ -12,7 +10,7 @@ import simulator.util.Animator;
 
 
 public final class Model extends Observable implements TimeServer {
-	
+
 	private static final class Node {
 		final double waketime;
 		final Agent agent;
@@ -24,27 +22,27 @@ public final class Model extends Observable implements TimeServer {
 			this.next = next;
 		}
 	}
-	
+
 	private double _currentTime;
 	private int _size;
 	private Node _head;
-	
+
 	//Traffic Simulator stuff
 	private Animator _animator;
 	//TODO: Before Refactoring
 	@SuppressWarnings("unused")
 	private boolean _disposed;
 	private LightController[][] _lControllers;
-	
+
 	private LinkedList<Source> sources = new LinkedList<Source>();
 	//TODO: Before Refactoring
 	//private LinkedList<LightController> lightControllers = new LinkedList<LightController>();
-	
+
 	private int _horizontalRoads;
 	private int _verticalRoads;
-	
-	
-	
+
+
+
 	/*
 	 * Invariant: _head != null
 	 * Invariant: _head.agent == null
@@ -56,14 +54,14 @@ public final class Model extends Observable implements TimeServer {
 	}
 
 	public Model(AnimatorBuilder builder){
-		
+
 		int rows = MP.getRows();
-	    int columns = MP.getColumns();
-		
+		int columns = MP.getColumns();
+
 		_size = 0;
 		_head = new Node(0, null, null);
 		_lControllers =  new LightController[rows][columns];
-		
+
 
 		if (rows < 0 || columns < 0 || (rows == 0 && columns == 0)) {
 			throw new IllegalArgumentException();
@@ -84,14 +82,14 @@ public final class Model extends Observable implements TimeServer {
 		_disposed = true;
 	}
 
-	
+
 	/**
 	 * Construct the model, establishing correspondences with the visualizer.
 	 */
 	private void setup(AnimatorBuilder builder, int rows, int columns) {
 		this._horizontalRoads = rows;
 		this._verticalRoads = columns;
-		
+
 		// Add Lights
 		for (int i=0; i<rows; i++) {
 			for (int j=0; j<columns; j++) {
@@ -101,57 +99,9 @@ public final class Model extends Observable implements TimeServer {
 				builder.addLight(nsLight, i, j);//This is just for the UI
 			}
 		}
-		
-		// Add Horizontal Roads
-		for (int i=0; i<rows; i++) {
 
-			boolean eastToWest = false;
-			Road firstRoad = null;
-			Road lastRoad = null;
+		WorldFactory.newInstance(MP.isAlternating, this, null, this._lControllers, builder, this);
 
-			for (int j=0; j<=columns; j++) {
-				Road oldLast = lastRoad;
-				lastRoad = new Road();
-				lastRoad._nextAcceptor = null;
-
-				if(firstRoad == null){
-					firstRoad = lastRoad;
-					Source source = new Source(firstRoad,this);
-					this.enqueue(1, source);
-				}
-				else oldLast._nextAcceptor = lastRoad;
-				
-				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
-			}
-			eastToWest = !eastToWest;
-			Sink sink = new Sink();
-			lastRoad._nextAcceptor = sink;
-		}
-
-		// Add Vertical Roads
-		for (int j=0; j<columns; j++) {
-			boolean southToNorth = false;
-			Road firstNSRoad = null;
-			Road lastNSRoad = null;
-			
-			for (int i=0; i<=rows; i++) {
-				Road oldNSRoad = lastNSRoad;
-				lastNSRoad = new Road();
-				lastNSRoad._nextAcceptor = null;
-				if(firstNSRoad == null){
-					firstNSRoad = lastNSRoad;
-					Source source = new Source(firstNSRoad,this);
-					this.enqueue(1, source);
-				}
-				else oldNSRoad._nextAcceptor = lastNSRoad;
-				builder.addVerticalRoad(lastNSRoad, i, j, southToNorth);
-				
-			}
-			Sink sink = new Sink();
-			lastNSRoad._nextAcceptor = sink;
-			southToNorth = !southToNorth;
-		}
-		
 	}
 
 	public String toString() {
@@ -173,7 +123,7 @@ public final class Model extends Observable implements TimeServer {
 	}
 
 	public void enqueue(double waketime, Agent agent)
-		throws IllegalArgumentException
+			throws IllegalArgumentException
 			{
 		if (waketime <= _currentTime)
 			throw new IllegalArgumentException();
@@ -208,7 +158,7 @@ public final class Model extends Observable implements TimeServer {
 
 	public void run(double duration) {
 		double endtime = _currentTime + duration;
-		
+
 		while ((!empty()) && (_head.next.waketime <= endtime)) {
 			for (int i=0; i<this._horizontalRoads; i++) {
 				for (int j=0; j<this._verticalRoads; j++) {
