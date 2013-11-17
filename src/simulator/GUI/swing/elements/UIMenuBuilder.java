@@ -3,21 +3,22 @@ package simulator.GUI.swing.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIMenuBuilder {
-  private final List<UIMenu.Pair> _menu = new ArrayList<UIMenu.Pair>();
-  public void add(String prompt, UIMenuAction action) {
-    if (null == action)
+public class UIMenuBuilder
+{
+  private final List<UIMenu.Pair> _menu = new ArrayList();
+
+  public void add(String prompt, UIMenuAction action) { if (null == action)
       throw new IllegalArgumentException();
-    _menu.add(new UIMenu.Pair(prompt, action));
-  }
+    this._menu.add(new UIMenu.Pair(prompt, action)); }
+
   public UIMenu toUIMenu(String heading) {
     if (null == heading)
       throw new IllegalArgumentException();
-    if (_menu.size() <= 1)
+    if (this._menu.size() <= 1)
       throw new IllegalStateException();
-    UIMenu.Pair[] array = new UIMenu.Pair[_menu.size()];
-    for (int i = 0; i < _menu.size(); i++)
-      array[i] = _menu.get(i);
+    UIMenu.Pair[] array = new UIMenu.Pair[this._menu.size()];
+    for (int i = 0; i < this._menu.size(); i++)
+      array[i] = ((UIMenu.Pair)this._menu.get(i));
     return new UIMenu(heading, array);
   }
 }

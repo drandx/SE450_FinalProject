@@ -1,8 +1,12 @@
 package simulator.GUI.swing.elements;
 
-public interface UI {
-  public void processMenu(UIMenu menu);
-  public String[] processForm(UIForm form);
-  public void displayMessage(String message);
-  public void displayError(String message);
+public abstract interface UI
+{
+  public abstract void processMenu(UIMenu paramUIMenu);
+
+  public abstract String[] processForm(UIForm paramUIForm);
+
+  public abstract void displayMessage(String paramString);
+
+  public abstract void displayError(String paramString);
 }

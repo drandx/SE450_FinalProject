@@ -145,7 +145,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setSingleDouble);
-
+        if(validateResponse(result1))
         MP.setTimeStep(Double.parseDouble(result1[0]));
       }
     });
@@ -154,7 +154,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setSingleDouble);
-
+        if(validateResponse(result1))
         MP.setRuntime(Double.parseDouble(result1[0]));
       }
     });
@@ -163,7 +163,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleInt);
-
+        if(validateResponse(result1))
         MP.setGridSize(Integer.parseInt(result1[0]), Integer.parseInt(result1[1]));
       }
     });
@@ -172,11 +172,12 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setPattern);
-
-        if (Integer.parseInt(result1[0]) == 1)
-          MP.setPattern(false);
-        else
-          MP.setPattern(true);
+        if(validateResponse(result1)){
+	        if (Integer.parseInt(result1[0]) == 1)
+	          MP.setPattern(false);
+	        else
+	          MP.setPattern(true);
+        }
       }
     });
     m.add("Set car entry rate", new UIMenuAction()
@@ -184,7 +185,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setCarEntryRate(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -193,7 +194,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setRoadLengths(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -202,7 +203,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setIntersectionLength(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -211,7 +212,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setCarLength(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -220,7 +221,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setSingleDouble);
-
+        if(validateResponse(result1))
         MP.setCarMaxVel(Double.parseDouble(result1[0]));
       }
     });
@@ -229,7 +230,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))	
         MP.setCarStopDist(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -238,7 +239,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setCarBreakDist(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -247,7 +248,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setGreenTime(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -256,7 +257,7 @@ class Control
       public void run()
       {
         String[] result1 = Control.this._ui.processForm(Control.this._setDoubleDouble);
-
+        if(validateResponse(result1))
         MP.setYellowTime(Double.parseDouble(result1[0]), Double.parseDouble(result1[1]));
       }
     });
@@ -274,6 +275,15 @@ class Control
       }
     });
     this._menus[stateNum] = m.toUIMenu("100 miles-per-hour switchin' lanes like whoa");
+  }
+  
+  private boolean validateResponse(String[] result){
+	  boolean ret = true;
+	  for (int i = 0; i < result.length; i++) {
+		if(result[i] == null){
+			ret = false;
+		}
+	} return ret;
   }
 
   private void addEXIT(int stateNum) {

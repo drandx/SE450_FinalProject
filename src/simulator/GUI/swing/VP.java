@@ -12,9 +12,9 @@ class VP {
   /** Gap between model elements, in meters */
   static double gap = 1;
   /** Width of the displayed graphics window, in pixels */
-  static int displayWidth = 800;
+  static int displayWidth = 1000;
   /** Height of the displayed graphics window, in pixels */
-  static int displayHeight = 800;
+  static int displayHeight = 1000;
   /** Delay introduced into each graphics update, in milliseconds */
   static int displayDelay = 50;
   /** Scalefactor relating model space to pixels, in pixels/meter */
