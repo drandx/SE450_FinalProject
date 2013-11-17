@@ -7,14 +7,11 @@ import java.util.Observable;
 
 import simulator.agent.Agent;
 import simulator.agent.TimeServer;
-import simulator.model.Light.lightState;
 import simulator.util.Animator;
-import simulator.util.MP;
-import simulator.util.Util;
 
 
 
-public final class TimeServerLinked extends Observable implements TimeServer {
+public final class Model extends Observable implements TimeServer {
 	
 	private static final class Node {
 		final double waketime;
@@ -34,10 +31,17 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 	
 	//Traffic Simulator stuff
 	private Animator _animator;
+	//TODO: Before Refactoring
+	@SuppressWarnings("unused")
 	private boolean _disposed;
+	private LightController[][] _lControllers;
 	
 	private LinkedList<Source> sources = new LinkedList<Source>();
-	private LinkedList<LightController> lightControllers = new LinkedList<LightController>();
+	//TODO: Before Refactoring
+	//private LinkedList<LightController> lightControllers = new LinkedList<LightController>();
+	
+	private int _horizontalRoads;
+	private int _verticalRoads;
 	
 	
 	
@@ -46,14 +50,20 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 	 * Invariant: _head.agent == null
 	 * Invariant: (_size == 0) iff (_head.next == null)
 	 */
-	public TimeServerLinked() {
+	public Model() {
 		_size = 0;
 		_head = new Node(0, null, null);
 	}
 
-	public TimeServerLinked(AnimatorBuilder builder, int rows, int columns){
+	public Model(AnimatorBuilder builder){
+		
+		int rows = MP.getRows();
+	    int columns = MP.getColumns();
+		
 		_size = 0;
 		_head = new Node(0, null, null);
+		_lControllers =  new LightController[rows][columns];
+		
 
 		if (rows < 0 || columns < 0 || (rows == 0 && columns == 0)) {
 			throw new IllegalArgumentException();
@@ -79,6 +89,8 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 	 * Construct the model, establishing correspondences with the visualizer.
 	 */
 	private void setup(AnimatorBuilder builder, int rows, int columns) {
+		this._horizontalRoads = rows;
+		this._verticalRoads = columns;
 		List<Road> roads = new ArrayList<Road>();
 		
 		// Add Lights
@@ -86,11 +98,14 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 			for (int j=0; j<columns; j++) {
 				Light nsLight = new Light();
 				Light ewLight = new Light();
-				this.lightControllers.add(new LightController(nsLight,ewLight));
-				builder.addLight(nsLight, i, j);
+				_lControllers[i][j] = new LightController(nsLight,ewLight);
+				builder.addLight(nsLight, i, j);//This is just for the UI
 			}
 		}
 
+		
+		//TODO: Refactor
+		
 		// Add Horizontal Roads
 		for (int i=0; i<rows; i++) {
 
@@ -109,7 +124,7 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 					this.sources.add(source);
 				}
 				else oldLast._nextAcceptor = lastRoad;
-
+				
 				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
 				roads.add(lastRoad);
 			}
@@ -123,6 +138,7 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 			boolean southToNorth = false;
 			Road firstNSRoad = null;
 			Road lastNSRoad = null;
+			
 			for (int i=0; i<=rows; i++) {
 				Road oldNSRoad = lastNSRoad;
 				lastNSRoad = new Road();
@@ -134,6 +150,8 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 				}
 				else oldNSRoad._nextAcceptor = lastNSRoad;
 				builder.addVerticalRoad(lastNSRoad, i, j, southToNorth);
+				/*if(i<rows)
+					lastNSRoad.acceptObstacle(this._lControllers[i][j]);*/
 				roads.add(lastNSRoad);
 			}
 			Sink sink = new Sink();
@@ -164,7 +182,7 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 	}
 
 	public void enqueue(double waketime, Agent agent)
-			throws IllegalArgumentException
+		throws IllegalArgumentException
 			{
 		if (waketime <= _currentTime)
 			throw new IllegalArgumentException();
@@ -201,8 +219,10 @@ public final class TimeServerLinked extends Observable implements TimeServer {
 		double endtime = _currentTime + duration;
 		
 		while ((!empty()) && (_head.next.waketime <= endtime)) {
-			for (LightController lc :  lightControllers) {
-				lc.run(_currentTime);
+			for (int i=0; i<this._horizontalRoads; i++) {
+				for (int j=0; j<this._verticalRoads; j++) {
+					_lControllers[i][j].run(_currentTime);
+				}
 			}
 			_currentTime = _head.next.waketime;
 			while ((!empty()) && (_head.next.waketime == _currentTime)) {

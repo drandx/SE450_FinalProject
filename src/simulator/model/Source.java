@@ -17,10 +17,10 @@ public class Source implements CarAcceptor{
 	
 	
 	public Car generateCar(TimeServer ts){
-		Car car = new Car(0,0,0,0);
+		Car car = new Car();
 		car.setTimeServer(ts);
 		car.setCurrentRoad((Road) this._first);
-		this._first.accept(car);
+		this._first.acceptObstacle(car);
 		return car;
 	}
 

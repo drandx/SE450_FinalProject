@@ -1,6 +1,6 @@
 package simulator.GUI.swing;
 
-import simulator.util.MP;
+import simulator.model.MP;
 
 /**
  * Static class for visualization parameters.

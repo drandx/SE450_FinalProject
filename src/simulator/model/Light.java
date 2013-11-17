@@ -1,11 +1,9 @@
 package simulator.model;
 
-import simulator.agent.Agent;
-
 public class Light implements CarAcceptor{
 	public enum lightState {GREEN, YELLOW, RED};
 	private lightState _state;
-	CarAcceptor _nextRoad;
+	CarAcceptor _road;
 		
 	public Light() {
 		

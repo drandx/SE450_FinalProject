@@ -8,10 +8,10 @@ import java.util.List;
 import simulator.model.AnimatorBuilder;
 import simulator.model.Car;
 import simulator.model.Light;
+import simulator.model.MP;
 import simulator.model.Road;
 import simulator.model.Light.lightState;
 import simulator.util.Animator;
-import simulator.util.MP;
 import simulator.util.SwingAnimator;
 import simulator.util.SwingAnimatorPainter;
 
