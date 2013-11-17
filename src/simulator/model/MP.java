@@ -28,11 +28,11 @@ public class MP
   public static double minCarLength = 10.0D;
   public static double maxCarLength = 15.0D;
 
-  public static double minGreenLightTime = 30.0D;
-  public static double maxGreenLightTime = 180.0D;
+  public static double minGreenLightTime = 10.0D;
+  public static double maxGreenLightTime = 50.0D;
 
-  public static double minYellowLightTime = 32.0D;
-  public static double maxYellowLightTime = 40.0D;
+  public static double minYellowLightTime = 10.0D;
+  public static double maxYellowLightTime = 20.0D;
 
   public static double minIntersectionLength = 10.0D;
   public static double maxIntersectionLength = 15.0D;
