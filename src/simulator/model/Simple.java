@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import simulator.agent.Agent;
 import simulator.agent.TimeServer;
 
-public class Simple implements World{
+public class Simple implements World {
 
 	public Simple(Model model, ArrayList<Agent> _agents,LightController[][] intersection, AnimatorBuilder builder, TimeServer timeServer) {
 		int rows = MP.getRows();
 		int columns = MP.getColumns();
+	
+		boolean eastToWest = false;
 		
 		// Add Horizontal Roads
 		for (int i=0; i<rows; i++) {
-
-			boolean eastToWest = false;
+			
 			Road firstRoad = null;
 			Road lastRoad = null;
 
@@ -31,9 +32,7 @@ public class Simple implements World{
 				else oldLast._nextAcceptor = lastRoad;
 
 				builder.addHorizontalRoad(lastRoad, i, j, eastToWest);
-				
 			}
-			eastToWest = !eastToWest;
 			Sink sink = new Sink();
 			lastRoad._nextAcceptor = sink;
 		}
