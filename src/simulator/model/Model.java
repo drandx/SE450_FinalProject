@@ -1,6 +1,5 @@
 package simulator.model;
 
-import java.util.LinkedList;
 import java.util.Observable;
 
 import simulator.agent.Agent;
@@ -33,11 +32,6 @@ public final class Model extends Observable implements TimeServer {
 	@SuppressWarnings("unused")
 	private boolean _disposed;
 	private LightController[][] _lControllers;
-
-	private LinkedList<Source> sources = new LinkedList<Source>();
-	//TODO: Before Refactoring
-	//private LinkedList<LightController> lightControllers = new LinkedList<LightController>();
-
 	private int _horizontalRoads;
 	private int _verticalRoads;
 
