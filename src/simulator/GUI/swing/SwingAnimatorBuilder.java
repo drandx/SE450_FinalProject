@@ -115,7 +115,7 @@ public class SwingAnimatorBuilder implements AnimatorBuilder 	{
 					g.setColor(d.getColor());
 					//XGraphics.fillOval(g, e.t, d.getPosition(), 0, MP.carLength, VP.elementWidth);
 					//Paints the size of the car
-					XGraphics.fillOval(g, e.t, d.getPosition() / (d.getCurrentRoad().getEndPosition() / MP.roadDrawLength), 0.0D, d.get_length() / (d.getCurrentRoad().getEndPosition() / MP.roadDrawLength), VP.elementWidth);
+					XGraphics.fillOval(g, e.t, d.getPosition() / (((Road) d.getObserver()).getEndPosition() / MP.roadDrawLength), 0.0D, d.get_length() / (((Road) d.getObserver()).getEndPosition() / MP.roadDrawLength), VP.elementWidth);
 				}
 			}
 			

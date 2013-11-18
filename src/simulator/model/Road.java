@@ -17,20 +17,19 @@ public class Road implements CarAcceptor{
 
 	private List<Agent> _obstacles = new ArrayList<Agent>();
 
-	public void acceptObstacle(Agent d) {
+	public void addObstacle(Agent d) {
 		if (d == null) { throw new IllegalArgumentException(); }
 		_obstacles.add(d);
 	}
 
-	public boolean accept(Car c, double frontPosition) {
+	public boolean acceptObstacle(Agent c) {
 		_obstacles.remove(c);
-		if(frontPosition>endPosition) {
+		if(((Car) c).getPosition()>endPosition) {
 			if(this._nextAcceptor instanceof Sink)//c = null; //Reaches the sink
 				return false;
-			return ((Road) this._nextAcceptor).accept(c,frontPosition-endPosition);
+			return ((Road) this._nextAcceptor).acceptObstacle(c);
 		} else {
-			c.setCurrentRoad(this);
-			c.setFrontPosition(frontPosition);
+			((Car) c).setObserver(this);
 			_obstacles.add(c);
 			return true;
 		}

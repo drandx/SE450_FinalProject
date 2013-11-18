@@ -15,7 +15,7 @@ public class Source implements Agent{
 	public void run(double time) {
 		Car car = new Car();
 		car.setTimeServer(this._timeServer);
-		car.setCurrentRoad((Road) this._first);
+		car.setObserver((Road) this._first);
 		this._first.acceptObstacle(car);
 		this._timeServer.enqueue(this._timeServer.currentTime()+time, car);
 		this._timeServer.enqueue(time+5.0D, this);
